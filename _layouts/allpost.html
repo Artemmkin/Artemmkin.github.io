@@ -1,0 +1,18 @@
+---
+layout: default
+---
+
+<h1 class="page-title">All posts</h1>
+{% assign posts = site.posts %}
+
+{% for post in posts %}
+  {% assign currentdate = post.date | date: "%Y" %}
+  {% if currentdate != date %}
+    {% unless forloop.first %}</ul><hr/>{% endunless %}
+    <h2 id="y{{post.date | date: "%Y"}}">{{ currentdate }}</h2>
+    <ul class="related-posts">
+    {% assign date = currentdate %}
+  {% endif %}
+  {% include post-list-item.html post=post format="%m/%d" %}
+  {% if forloop.last %}</ul><hr/>{% endif %}
+{% endfor %}
