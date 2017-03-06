@@ -16,7 +16,18 @@ aws:
   name: aws
   color: '#949667'
 
-
 vpn:
   name: VPN
+  color: '#949667'
+
+freeradius:
+  name: freeradius
+  color: '#949667'
+
+ciscoasa:
+  name: ciscoasa
+  color: '#949667'
+
+2fa:
+  name: 2fa
   color: '#949667'
