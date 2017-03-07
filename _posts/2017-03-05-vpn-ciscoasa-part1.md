@@ -8,10 +8,10 @@ In the **1st** part of this blog series, we install and configure FreeRADIUS ser
 
 __Prerequisite:__ you should have Cisco ASA up and running and it must have at least 2 interfaces (inside and outside)
 
-I'll briefly go over the steps required to install and configure FreeRADIUS server on Ubuntu 14.04. We'll be using [2FAVPN](https://github.com/Artemmkin/2FAVPN) ansible role for installation and configuration of FreeRADIUS server. Of course, you can do every step manually, but that's not very "devopsy" :)
+I'll briefly go over the steps required to install and configure FreeRADIUS server on Ubuntu 14.04. We'll be using [freeradius](https://github.com/Artemmkin/2FAVPN/tree/master/roles/freeradius) ansible role from this repository [2FAVPN](https://github.com/Artemmkin/2FAVPN) for installation and configuration of FreeRADIUS server. Of course, you can do every step manually, but that's not very "devopsy" :)
 <!--break-->
 
-### So here is what FreeRADIUS role will do for us.
+### So here is what freeradius role will do for us
 
 As we are going to use Time-Based One Time Password (TOTP) for our 2FA authentication, we start with installing ```ntp``` to keep our clock in sync. Then we install FreeRADIUS itself, tools required for debugging, and [google_authenticator](https://github.com/google/google-authenticator-libpam) pam module which FreeRADIUS will use for authenticating the users.
 ~~~yml
@@ -85,4 +85,4 @@ service freeradius stop
 freeradius -XXX
 ~~~
 
-To be continued ... 
+To be continued ...
