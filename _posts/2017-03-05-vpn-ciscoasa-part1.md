@@ -65,7 +65,7 @@ We're done with FreeRADIUS configuration and it's time to create our first syste
 ~~~
 When running ```google_authenticator``` command, it'll prompt you for choosing different options. To avoid that and automate the process, we pass the values of those options along with the command.
 
-Once the secret key was generated, we will show the content of {% raw %} ```/home/{{admin_username}}/.google_authenticator```{% endraw %} during ansible run with debug module. So when running ansible role, at almost the very end you'll something similar to this
+Once the secret key was generated, we will show the contents of {% raw %} ```/home/{{admin_username}}/.google_authenticator```{% endraw %} with ```debug``` module. At almost the very end of ansible run, you'll see something similar to this
 
 ![400x200](/public/img/CiscoVPN/secret_key.gif)
 
