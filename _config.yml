@@ -39,7 +39,7 @@ author:
 
   # This photo will be used in the about section
   photo:        /public/img/photo.jpg
-  
+
   # Markdown enabled, can use multiple paragraphs (enabled by `|`)
   about:             |
     Hi, I'm Artem and I work as a systems engineer at DevOps company Express42.
@@ -85,7 +85,7 @@ author:
     # paypal:          _username_
 
 # Remove to disable Google Anaylics
-google_analytics_id: 'UA-84025722-2'
+google_analytics_id: 'UA-93190436-1'
 
 # Setting a disqus subdomain will enable the comment section
 # disqus:            <username>
