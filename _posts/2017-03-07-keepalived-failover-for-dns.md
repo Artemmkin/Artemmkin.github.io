@@ -34,7 +34,7 @@ To complete the IP assignment we need to add our secondary IP address to the ```
 
 - name: Add secondary IP directly # to avoid reloading ifaces
   command: "ip addr add {{ VIP }}/{{ VIP_subnet }} dev eth0"
-~~~{% raw %}
+~~~{% endraw %}
 So all you need to do is to change ```VIP``` and ```VIP_subnet``` variables inside the defaults. After that, requests could be directed to this IP address.
 
 Next, we install [aws cli](https://github.com/aws/aws-cli). We'll be using aws cli for VIP reassignment as part of our failover.
