@@ -25,8 +25,7 @@ To assign a secondary IP addresses to an instance, right click on the instance's
 We'll use this secondary IP address as a virtual IP address ([VIP](http://www.webopedia.com/TERM/V/virtual_IP_address.html)). VIP is basically an IP address shared between the hosts. That is when the _master_ server fails, the VIP will be assigned to a _backup_ server. This way all the requests could be directed to a single IP address.
 
 To complete the IP assignment we need to add our secondary IP address to the ```eth0``` interface which we do inside our keepalived role:
-~~~yml
-{% raw %}
+~~~yml{% raw %}
 - name: Add secondary IP address
   template:
     src: eth0.cfg.j2
@@ -35,8 +34,7 @@ To complete the IP assignment we need to add our secondary IP address to the ```
 
 - name: Add secondary IP directly # to avoid reloading ifaces
   command: "ip addr add {{ VIP }}/{{ VIP_subnet }} dev eth0"
-{% endraw %}
-~~~
+~~~{% raw %}
 So all you need to do is to change ```VIP``` and ```VIP_subnet``` variables inside the defaults. After that, requests could be directed to this IP address.
 
 Next, we install [aws cli](https://github.com/aws/aws-cli). We'll be using aws cli for VIP reassignment as part of our failover.
