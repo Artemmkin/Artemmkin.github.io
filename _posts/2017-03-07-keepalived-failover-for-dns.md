@@ -2,8 +2,6 @@
 layout: post
 title: Configure failover with Keepalived for services on AWS
 tags: [aws, keepalived, failover, dnsmasq]
-description: >
-  Every service is prone to failure and we want to make sure we have failover logic in place when it happens.
 ---
 AWS is awesome. It provides a great variety of services with the goal of making the process of building robust infrastructure easier.
 
