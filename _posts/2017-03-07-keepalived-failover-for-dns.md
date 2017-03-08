@@ -8,13 +8,13 @@ AWS is awesome. It provides a great variety of services with the goal of making 
 When it comes to using Load Balancer or DNS server, [ELB](http://docs.aws.amazon.com/elasticloadbalancing/latest/userguide/what-is-load-balancing.html) and [Route53](http://docs.aws.amazon.com/Route53/latest/DeveloperGuide/Welcome.html) are the 2 most popular choices that may cover almost all your needs. Nevertheless, these services have their own limitations. And sometimes you may need to have your own DNS server or load balancer running inside your VPC.
 
 As we all know, every service is prone to failure and we want to make sure we have failover logic in place when it happens.
-For load balancer and DNS servers [keepalived](https://github.com/acassen/keepalived) is by far one of the most popular choices for providing failover as well as load balancing (when coupled with [IPVS](https://en.wikipedia.org/wiki/IP_Virtual_Server)).
+For load balancers and DNS servers [keepalived](https://github.com/acassen/keepalived) is by far one of the most popular choices for providing failover as well as load balancing (when coupled with [IPVS](https://en.wikipedia.org/wiki/IP_Virtual_Server)).
 
 In this post we'll see how we can provide failover for 2 DNS servers with keepalived.<!--break--> As for DNS servers, we'll use [dnsmasq](https://linux.die.net/man/8/dnsmasq), but again it could be a load balancer or a different DNS server. Our focus here is to see what is keepalived and how we can use it.
 
 ### Keepalived role
 
-We'll be using [this ansible role](https://github.com/Artemmkin/keepalived-aws-ansible) to install and configure keepalived as well as dnsmasq servers. For a summary on how to run this role, see [Readme](https://github.com/Artemmkin/keepalived-aws-ansible/blob/master/README.md)
+We'll be using [this ansible role](https://github.com/Artemmkin/keepalived-aws-ansible) to install and configure keepalived as well as dnsmasq. For a summary on how to run this role, see ```README``` file.
 
 I'll go over the important configuration steps inside the role to explain what is going on.
 
@@ -49,7 +49,7 @@ aws_access_key:
 aws_secret_key:
 region:
 ~~~
-Now getting back to our ansible role, we download one of the latest versions of keepalived and build it. The reason why we go for the latest version is because we're going to use _unicast_ as a way of communication between our keepalived services. The thing is that AWS doesn't allow _multicast_ and the old version of keepalived doesn't support unicast.
+Now getting back to our ansible role, we download one of the latest versions of keepalived and build it. The reason why we go for the latest version is because we're going to use _unicast_ as a way of communication between our keepalived services. The thing is that AWS doesn't allow _multicast_ and the old versions of keepalived doesn't support unicast.
 
 After we installed keepalived, we copy a few bash scripts that our keepalived service will be using for checking the status of dnsmasq and taking action when it doesn't find it running.
 First, we copy ```test-dnsmasq.sh``` file with the following content:
@@ -60,8 +60,7 @@ killall -0 dnsmasq
 This basically checks if dnsmasq service is running. We can judge whether it is running or not by the exit status after running this script. As we'll see in a few moments, keepalived runs this script with specified frequency and checks the exit status. If the exit status is zero, then everything is fine and no action will be taken. If it's a non-zero value, keepalived will enter the _fault_ state (which we'll avoid with the use of ```weight``` parameter, see below).
 
 We also copy ```master.sh``` script:
-~~~yml
-{% raw %}
+~~~yml{% raw %}
 #!/bin/bash
 VIP={{ VIP }}
 Instance_ID=`/usr/bin/curl --silent http://169.254.169.254/latest/meta-data/instance-id`
@@ -69,14 +68,12 @@ ENI_ID=`aws ec2 describe-instances --instance-ids $Instance_ID | grep eni -m 1 |
 ENI=`echo ${ENI_ID::-1} | tr -d '"'`
 
 aws ec2 assign-private-ip-addresses --network-interface-id $ENI --private-ip-addresses $VIP --allow-reassignment
-{% endraw %}
-~~~
+~~~{% endraw %}
 This script will be run in case of transition to a ```MASTER``` state, i.e. when ```test-dnsmasq.sh``` script returns a non-zero value or instance with dnsmasq master server simply dies.
 In this script, we first determine our ```Instance ID```, then use its value to find out ```Network Interface ID```, and finally assign VIP to the instance on which we're running the script.
 
 Now we reached the most interesting part which is keepalived configuration ^^
-~~~bash
-{% raw %}
+~~~bash{% raw %}
 vrrp_script chk_service {
        script "/etc/keepalived/test-dnsmasq.sh"
        interval {{ interval }}                      # check every 2 seconds
@@ -84,7 +81,6 @@ vrrp_script chk_service {
        rise {{ rise }}       # require 2 successes for OK
        weight -5 # if substracted from master's priority the number should be less than backup's priority
 }
-
 vrrp_instance VI_1 {
    state {{ keepalived_role }}
    interface {{ keepalived_shared_iface }}
@@ -108,11 +104,10 @@ vrrp_instance VI_1 {
    }
    notify_master /etc/keepalived/master.sh
 }
-{% endraw %}
-~~~
+~~~{% endraw %}
 ```vrrp_script``` block serves the purpose of running our ```test-dnsmasq.sh``` script with the specified frequency.
 The key part in this block is the ```weight``` parameter. Its value is ```-5``` which means that ```5``` will be subtracted from vrrp instance _priority_ when script returns a non-zero value.
-From the start we assign each keepalived instance a priority. Instance with the highest priority will be the ```MASTER```. So in this case, when the script check fails, we subtract a value from instance priority big enough to make it transition into ```BACKUP``` state.
+From the start we assign each keepalived instance a priority. An instance with the highest priority will be the ```MASTER```. So, in this case, when the script check fails, we subtract a value from instance priority big enough to make it transition into ```BACKUP``` state.
 
 The rest of the configuration is pretty much self-explanatory. The only thing I want to note here is this line:
 ~~~yml
@@ -150,7 +145,7 @@ If you ever worked with Amazon, you probably already know that ```/etc/resolv.co
 
 Let's try to resolve a domain name we put in ```domain_dict```. Run on the launched ubuntu instance the following command:
 ~~~yml
-dig test.test.com
+$ dig test.test.com
 ~~~
 You should receive in return an IP address you put in ```defaults```.
 
@@ -158,7 +153,7 @@ You should receive in return an IP address you put in ```defaults```.
 
 Now let's stop dnsmasq service on our _master dnsmasq_ instance:
 ~~~yml
-service dnsmasq stop
+$ service dnsmasq stop
 ~~~
 Try resolving this name again. It may take a few seconds for a ```BACKUP``` dnsmasq server to transition to ```MASTER``` state because of the options we specified in ```vrrp_script``` block.
 
@@ -167,7 +162,7 @@ You should also be able to see in your AWS Console that the secondary IP address
 
 Now let's turn dnsmasq service back on on the _first_ dnsmasq instance:
 ~~~yml
-service dnsmasq start
+$ service dnsmasq start
 ~~~
 You should see that VIP was reassigned back to the first instance and resolution of our domain names still works.
 
