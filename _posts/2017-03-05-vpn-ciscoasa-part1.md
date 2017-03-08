@@ -15,8 +15,8 @@ I'll briefly go over the steps required to install and configure FreeRADIUS serv
 
 As we are going to use Time-Based One Time Password (TOTP) for our 2FA authentication, we start with installing ```ntp``` to keep our clock in sync. Then we install FreeRADIUS itself, tools required for debugging, and [google_authenticator](https://github.com/google/google-authenticator-libpam) pam module which FreeRADIUS will use for authenticating the users.
 ~~~yml
-sudo apt-get update
-sudo apt-get install ntp freeradius freeradius-utils libpam-google-authenticator
+$ sudo apt-get update
+$ sudo apt-get install ntp freeradius freeradius-utils libpam-google-authenticator
 ~~~
 
 After we installed all the packages, we need to tweak a few configuration files.
@@ -73,7 +73,7 @@ After that we enter our secret key in Google Authenticator app so that it could 
 
 We can check that our FreeRADIUS server works as expected by running a local authentication test. Run the following command on the machine where FreeRADIUS is running.
 ~~~yml
-radtest <username> <unix_password><google_auth_token> localhost 18120 testing123
+$ radtest <username> <unix_password><google_auth_token> localhost 18120 testing123
 ~~~
 If configured correctly, you should see a message that Access-Accept packet was received.
 
@@ -81,8 +81,7 @@ If configured correctly, you should see a message that Access-Accept packet was 
 
 If something went wrong, you can use these commands to start FreeRADIUS in debug mode:
 ~~~yml
-service freeradius stop
-freeradius -XXX
+$ service freeradius stop
+$ freeradius -XXX
 ~~~
-
-To be continued ...
+See [the second part](/2017/03/06/vpn-ciscoasa-part2/) where we configure Cisco ASA.
