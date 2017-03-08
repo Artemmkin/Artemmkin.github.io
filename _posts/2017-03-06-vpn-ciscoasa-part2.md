@@ -10,29 +10,27 @@ __Prerequisite:__ you should have Cisco ASA up and running and it must have at l
 
 We are going to set up VPN service for 2 [peering VPCs](http://docs.aws.amazon.com/AmazonVPC/latest/UserGuide/vpc-peering.html). You can have as many VPCs as you want. This will work for one VPC as well.
 
-We will do almost every step from the command line, except for the case when we copy AnyConnect image to Cisco ASA. This we will require the use of Cisco ASA's GUI which is called ASDM. <!--break-->I want to note that this can also be done via command line with a ```copy``` command which supports http(s), tftp. But because I don't have neither artifactory nor tftp server set up, I will do this via ASDM. You may also try ```scp``` command, but in my case it takes forever to run.
+We will do almost every step from the command line, except for the case when we copy AnyConnect image to Cisco ASA. This will require the use of Cisco ASA's GUI which is called ASDM. <!--break-->I want to note that this can also be done via command line with a ```copy``` command which supports http(s), tftp. But because I don't have neither artifactory nor tftp server set up, I will do this via ASDM. You may also try ```scp``` command, but in my case it takes forever to run.
 
 ### Upload the image
 So the first thing I will do is to enable http server to access ASDM:
 ~~~yml
-! we create a user with a password because running ASDM requires login credentials
+# we create a user with a password because running ASDM requires login credentials
 ciscoasa(config)# username cisco password cisco
 ciscoasa(config)# http server enable  
 ciscoasa(config)# http 0 0 management
 ~~~
 Management interface is the default interface which we will later rename to _outside_.
 
-Now if you type the ```https://<ciscoasa_public_ip>``` in your browser, you should be able to run ASDM.
+Now if you type ```https://<ciscoasa_public_ip>``` in your browser, you should be able to run ASDM.
 
 In ASDM, navigate to ```Configuration -> Remote Access VPN -> Network (Client) Access  ->  AnyConnect Client Software```, then click ```Add``` and upload AnyConnect image. After upload is finished, click ```OK``` and then ```Apply``` button to apply the changes. You can now close ASDM, it will no longer be needed.
 
 ### Time for configuration
 We'll be using [this](https://github.com/Artemmkin/2FAVPN/blob/master/asa_config/ciscoasa-config.txt) config file from [2FAVPN](https://github.com/Artemmkin/2FAVPN) repository we used previously. You can download it, make the necessary changes and then run it from the command line. I'll go over the important lines here to explain what exactly we do and what you need to change in this config.
 
-As it's not a rare case, let's pretend that Cisco ASA also acts as a router for some of the hosts in our ```inside``` network. That's why I put this sample NAT configuration at the beginning of the config file:
+As it's not a rare case, let's pretend that Cisco ASA also acts as a router for some of the hosts in our ```inside``` network. That's why I threw in some sample NAT configuration at the beginning of the config file:
 ~~~yml
-access-list some_nat permit ip any any
-access-group some_nat in interface outside
 object network obj-any
   subnet 0.0.0.0 0.0.0.0
   nat (inside,outside) dynamic interface
@@ -104,7 +102,7 @@ anyconnect image disk0:/anyconnect-linux-64-4.3.04027-k9.pkg
 anyconnect enable
 ~~~~
 
-If you read the comments in the [configuration file]() and make the necessary changes everything should work. But in case you run into some problems, ASDM could be very helpful to see what went wrong. Using ASDM you can check your current configuration, you can test you FreeRADIUS server, look at the logs and even use ```packet tracer``` (although I prefer command line version of this).
+If you read the comments in the [configuration file]() and make the necessary changes everything should work. But in case you run into some problems, ASDM could be very helpful to see what went wrong. With ASDM you can check your current configuration, you can test the FreeRADIUS server, look at the logs and even use ```packet tracer``` (although I prefer command line version of this).
 
 Now if you launch AnyConnect client, you should be able to connect to VPN using the ```username```, ```password``` and ```TOTP``` from Authenticator app which we created in the [first](/2017/03/05/vpn-ciscoasa-part1/) part of this blog series and be able to reach any of the hosts on our peering VPCs.
 
