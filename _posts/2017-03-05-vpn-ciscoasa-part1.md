@@ -1,6 +1,6 @@
 ---
 layout: post
-title: Set up Cisco ASA AnyConnect VPN with 2FA to multiple AWS VPCs (part I)
+title: Set up Cisco ASA AnyConnect VPN with 2FA to multiple AWS VPCs  (part I )
 tags: [aws, vpn, freeradius, 2fa, ciscoasa]
 ---
 

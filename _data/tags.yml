@@ -31,3 +31,15 @@ ciscoasa:
 2fa:
   name: 2fa
   color: '#949667'
+
+keepalived:
+  name: keepalived
+  color: '#949667'
+
+dnsmasq:
+  name: dnsmasq
+  color: '#949667'
+
+failover:
+  name: failover
+  color: '#949667'
