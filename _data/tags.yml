@@ -16,6 +16,18 @@ aws:
   name: aws
   color: '#949667'
 
+logging:
+  name: logging
+  color: '#949667'
+
+realtime:
+  name: realtime
+  color: '#949667'
+
+bigd:
+  name: big data
+  color: '#949667'
+
 vpn:
   name: VPN
   color: '#949667'
