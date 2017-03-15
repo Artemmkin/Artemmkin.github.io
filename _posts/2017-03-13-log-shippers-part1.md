@@ -30,7 +30,7 @@ You may wonder why _Apache Flume_ is not on the list, because it's clearly on th
 
 [Logstash](https://www.elastic.co/products/logstash) is a very popular and flexible tool. Its main strength is the abundance of different plugins which allow you to receive log data from almost any source with [inputs](https://www.elastic.co/guide/en/logstash/current/input-plugins.html), change the data representation of an event with [codecs](https://www.elastic.co/guide/en/logstash/current/output-plugins.html), apply various [filters](https://www.elastic.co/guide/en/logstash/master/filter-plugins.html) to your log traffic and send the log data further to almost every possible destination with [outputs](https://www.elastic.co/guide/en/logstash/current/output-plugins.html).
 
-As you can see, Logstash is a very powerful and would fit great as a _log indexer_ which takes the log data from different sources, does the log processing we need, and stores it to any location we want.
+As you can see, Logstash is very powerful and would fit great as a _log indexer_ which takes the log data from different sources, does the log processing we need, and stores it to any location we want.
 
 The Logstash's weakness has always been performance and resource consumption with the default heap size of 1GB. We certainly wouldn't want to install it on our small instances. In [this](https://sematext.com/blog/2016/09/13/logstash-alternatives/) post on Sematext, it says that based on benchmarks they did Logstash also turned out to be a lot slower than its alternatives like Rsyslog and Filebeat.
 
