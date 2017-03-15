@@ -12,7 +12,7 @@ title: About
 
 Hi, my name is Artem. I study applied mathematics in [National Research University of Electronic Technology](National Research University of Electronic Technology).
 
-Currently, I work as a systems engineer at DevOps company [Express42](http://express42.com/) in Moscow.
+Currently, I work as an engineer at DevOps company [Express42](http://express42.com/) in Moscow.
 
 I'm passionate about learning new things and this blog is a summary of my learning process.
 

@@ -16,6 +16,10 @@ aws:
   name: aws
   color: '#949667'
 
+logship:
+  name: log shippers
+  color: '#949667'
+
 logging:
   name: logging
   color: '#949667'
