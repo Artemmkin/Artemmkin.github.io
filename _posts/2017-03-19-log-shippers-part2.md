@@ -19,7 +19,7 @@ Guys from Treasure Data who developed Fluentd say that Fluentd was built with th
 
 ![400x400](/public/img/logging/fluentd-before.png)
 
-So they introduced this idea of a [Unified Logging Layer](http://www.fluentd.org/blog/unified-logging-layer) whose goal was to connect various sources of log data to different destination systems (NoSQL databases, HDFS, RDBMs, etc.) and have all the routing, filtering, and aggregation in one single piece of middleware. This naturally decreases the level of complexity of your logging system.
+So they introduced this idea of a [Unified Logging Layer](http://www.fluentd.org/blog/unified-logging-layer) whose goal was to connect various sources of log data to different destination systems (NoSQL databases, HDFS, RDBMs, etc.) and have all the routing, filtering, and aggregation in a single piece of middleware. This naturally decreases the level of complexity of your logging system.
 
 ![400x400](/public/img/logging/fluentd-architecture.png)
 
@@ -43,11 +43,11 @@ In the same input section you can specify a log parser to use.
 
 *Log parsers let you break a log message into smaller chunks by following a set of rules which you define, so that it can be more easily interpreted and managed in the future.*
 
-You can choose one from the [list of built-in parsers](http://docs.fluentd.org/v0.12/articles/parser-plugin-overview).  For example, Fluentd has predefined parsers for such popular formats as```apache```, ```nginx```, ```syslog```, ```json```. Other commonly used parsers include ```multiline``` which lets you parse multiline logs and ```regexp``` that allows you to write your own regexp to use for parsing. I also liked the fact that, as was in the case of filebeat, they provide a way to test your regexp via [fluentd-ui’s in_tail editor](http://docs.fluentd.org/v0.12/articles/fluentd-ui#intail-setting) or [Fluentular app](http://fluentular.herokuapp.com/).
+You can choose one from the [list of built-in parsers](http://docs.fluentd.org/v0.12/articles/parser-plugin-overview).  For example, Fluentd has predefined parsers for such popular formats as```apache```, ```nginx```, ```syslog```, ```json```. Other commonly used parsers include ```multiline``` which lets you parse multiline logs and ```regexp``` that allows you to write your own regexp to use for parsing. I also liked the fact that, as was in the case of filebeat, they provide a way to test your regexp either using [fluentd-ui’s in_tail editor](http://docs.fluentd.org/v0.12/articles/fluentd-ui#intail-setting) or [Fluentular app](http://fluentular.herokuapp.com/).
 
-And you can always [write your own plugin](http://docs.fluentd.org/v0.12/articles/plugin-development#filter-plugins) no matter whether it is for parsing, filtering, or something else. Fluentd supports 6 types of plugins:  [Input](http://docs.fluentd.org/v0.12/articles/input-plugin-overview), [Parser](http://docs.fluentd.org/v0.12/articles/parser-plugin-overview), [Filter](http://docs.fluentd.org/v0.12/articles/filter-plugin-overview), [Output](http://docs.fluentd.org/v0.12/articles/output-plugin-overview), [Formatter](http://docs.fluentd.org/v0.12/articles/formatter-plugin-overview) and [Buffer](http://docs.fluentd.org/v0.12/articles/buffer-plugin-overview).
+And remember, with a pluggable architecture like this, you can always [write your own plugin](http://docs.fluentd.org/v0.12/articles/plugin-development#filter-plugins) no matter whether it is for parsing, filtering, or something else. Fluentd supports 6 types of plugins:  [Input](http://docs.fluentd.org/v0.12/articles/input-plugin-overview), [Parser](http://docs.fluentd.org/v0.12/articles/parser-plugin-overview), [Filter](http://docs.fluentd.org/v0.12/articles/filter-plugin-overview), [Output](http://docs.fluentd.org/v0.12/articles/output-plugin-overview), [Formatter](http://docs.fluentd.org/v0.12/articles/formatter-plugin-overview) and [Buffer](http://docs.fluentd.org/v0.12/articles/buffer-plugin-overview).
 
-Let's create a sample input section. Suppose we would like to collect apache access log. Then our input section could look like this:
+Let's create a sample input section. Suppose that we want to collect Apache access logs. Then our input section could look like this:
 ~~~yml
 # input source
 <source>
@@ -58,18 +58,18 @@ Let's create a sample input section. Suppose we would like to collect apache acc
   format apache2 # built-in parser for apache logs
 </source>
 ~~~
-As we can see here, every input section starts with a ```source``` directive. Then we specify a type of input plugin we want to use and its required parameters. In the case, the [in_tail](http://docs.fluentd.org/v0.12/articles/in_tail#format-required) input plugin requires us to specify  ```path``` to the file we want to tail, ```pos_file``` path where to store information about the last read position (used when td-agent restarts), ```tag``` to add to events of this sort, and a ```format```(parser).
+As we can see here, every input section starts with a ```source``` directive. Then we specify a type of input plugin we want to use and its required parameters. In this case, the [in_tail](http://docs.fluentd.org/v0.12/articles/in_tail#format-required) input plugin requires us to specify  a ```path``` to the file we want to tail, a ```pos_file``` path where to store information about the last read position (used when td-agent restarts), a ```tag``` to add to events of this sort, and a ```format```(parser).
 
-Now, an apache log message which generally looks like this:
+Now, an Apache log message which generally looks like this:
 ![200x200](/public/img/logging/fluentd-raw-apache.jpg)
 will receive the following form after going through our input section:
 ![200x200](/public/img/logging/fluentd-event.jpg)
 
-Note that **tagging** is one of the key concepts in Fluentd's work. As we will soon, all the filtering and routing decisions are made based on a tag match.  
+Note that **tagging** is one of the key concepts in Fluentd's work. As we will see quite soon, all the filtering and routing decisions are made based on a tag match.  
 #### Filter
 After the input section, you can define a set of [filters](http://docs.fluentd.org/v0.12/articles/filter-plugin-overview) you want to apply to your log messages. Filters allow you to filter out events or perform mutation of the incoming data (enrich events by adding new fields, delete or mask fields for privacy).
 
-Let's add a filter for our apache logs. We use a built-in [record_transformer](http://docs.fluentd.org/v0.12/articles/filter_record_transformer#renewrecord-optional) filter plugin to add a new field to our event.
+Let's add a filter for our Apache logs. We use a built-in [record_transformer](http://docs.fluentd.org/v0.12/articles/filter_record_transformer#renewrecord-optional) filter plugin to add a new field to these events.
 ~~~yml
 # filter messages with the tag "apache.access"
 <filter apache.access>
@@ -95,7 +95,7 @@ Output plugins are divided into different types based on their buffering impleme
 
 Among  _non-buffered_ output plugins which immediately write out results, the most commonly used built-in plugins include [copy](http://docs.fluentd.org/v0.12/articles/out_copy) which allows you to write the same data to multiple outputs and [stdout](http://docs.fluentd.org/v0.12/articles/out_stdout) used for debugging purposes.
 
-We'll use [out_forward](http://docs.fluentd.org/v0.12/articles/out_forward) output plugin in our example to send apache logs to another Fluentd which will act as an aggregator. (I used efk and log-generator playbooks from [this repo](https://github.com/Artemmkin/logging-sandbox)):
+We'll use [out_forward](http://docs.fluentd.org/v0.12/articles/out_forward) output plugin in our example to send Apache logs to another Fluentd instance which will act as a log aggregator. (I used _efk_ and _log-generator_ playbooks from [this repo](https://github.com/Artemmkin/logging-sandbox)):
 1. Output section for _Fluentd shipper_:
     ~~~yml
 # output section for logs matching apache.access tag
@@ -140,7 +140,7 @@ For some output plugins like [out_file](http://docs.fluentd.org/v0.12/articles/o
 Collecting logs from various services is great, but we primarily care about the work of our application. So how can we use Fluentd to collect logs from our application?
 
 There are Fluentd [libraries](http://docs.fluentd.org/v0.12/categories/logging-from-apps) for popular programming languages that you can use to post your application logs to Fluentd.
-On their website, there are [examples]((http://docs.fluentd.org/v0.12/categories/logging-from-apps)) showing you how simply it is to use this libraries inside your application code.
+On their website, there are [examples]((http://docs.fluentd.org/v0.12/categories/logging-from-apps)) showing you how simply it is to use these libraries inside your application code.
 
 I decided to try fluentd library for [python](http://docs.fluentd.org/v0.12/articles/python). I took the code they suggest for testing.
 ```
@@ -156,7 +156,7 @@ Then I changed my configuration a little for fluentd instances (all config files
 
 ![400x400](/public/img/logging/python-app.jpg)
 
-It seems to work fine, and considering the fact that forward output plugin provides buffering, it's worth taking a look at fluentd as a way to transport your application logs to a centralized location.
+It seems to work fine, and considering the fact that forward output plugin provides buffering, it's worth taking a look at Fluentd as a way to transport your application logs to a centralized location.
 
 #### Other things to mention
 
@@ -164,7 +164,7 @@ Fluentd package comes with a [web ui](http://docs.fluentd.org/v0.12/articles/flu
 
 Fluentd is written in Ruby with performance sensitive parts written in C. It takes fewer resources than Logstash (~40 Mb).
 
-There's also another project called [Fluent Bit](http://fluentbit.io/). This is like filebeat for Logstash. It is a super lightweight log shipper which is written entirely in C. Hopefully, I'll have the time to write about it in the next posts, as this one is getting too long.
+There's also another project called [Fluent Bit](http://fluentbit.io/). This is like Filebeat for Logstash. It is a super lightweight log shipper which is written entirely in C. Hopefully, I'll have the time to write about it in the next posts, as this one is getting too long.
 
 #### Conclusion
 
