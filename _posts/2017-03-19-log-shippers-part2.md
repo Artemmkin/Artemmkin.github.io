@@ -2,7 +2,7 @@
 layout: post
 title: >
   Building a centralized logging system. <br /> Log shippers (part 2).
-tags: [logging, logship, bigd]
+tags: [logging, logship, logcol, fluentd]
 ---
 ### Fluentd
 We continue to talk about _log shippers_ and in this part we're going to look at [Fluentd](http://www.fluentd.org/)  which is next on our [list](/2017/03/13/log-shippers-part1/).

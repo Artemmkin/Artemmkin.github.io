@@ -2,7 +2,7 @@
 layout: post
 title: >
   Building a centralized logging system. <br /> Log shippers (part 1).
-tags: [logging, logship, bigd]
+tags: [logging, logship, logcol]
 ---
 _In this part of our blog series we're going to look at the most popular opensource tools used for log shipping._
 

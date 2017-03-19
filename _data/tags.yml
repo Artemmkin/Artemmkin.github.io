@@ -16,6 +16,15 @@ aws:
   name: aws
   color: '#949667'
 
+fluentd:
+  name: fluentd
+  color: '#949667'
+
+
+logcol:
+  name: log collectors
+  color: '#949667'
+
 logship:
   name: log shippers
   color: '#949667'
