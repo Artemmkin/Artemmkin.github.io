@@ -15,17 +15,30 @@ Logging is closely related to the monitoring. It gives you the insight on what i
 
 This is the **first** post of a new series I want to dedicate to _exploring the options of building a centralized logging system with existing opensource tools_. Specifically, for the systems with *a high flow rate of log messages*.
 
+There are of course many _commercial solutions_ like Splunk, Sumo Logic. But these could be very expensive.
+
+Before we start, I just want to have a quick look at the criterias for a logging system. These are the criterias that names Tin Lee (Senior SRE at LinkedIn) in his [presentation](https://www.youtube.com/watch?v=51wKfT4t7Jg) at ELK Meetups:
+
+* Scalable - horizontally, because the volume of logs will grow as grow your infrastructure.
+* Close to real-time - if it takes hours to get the result you want, it becomes useless.
+* Inexpensive - no company wants to spend too much money on logging.
+* Flexible  - once you install a solution you can find many other ways of using it that you didn't think of in the beginning, so it has to be adaptable.
+* Large user community - which means support.
+* Opensource - have control over the code.
+
+These criterias have been chosen at LinkedIn where they collect tremendous amounts of logs each day. And I generally tend to keep these in mind, when working on building a logging system with *a high flow rate of log messages*.
+
 If you're already familiar with logging systems, you know that there is a great variety of tools out there that you can use for your logging system. Yet, you'll often find people use their own self-written tools for managing logs. And it doesn't seem so surprising, if you understand that every infrastructure you are going to set up a logging system for is _unique_. So there is no specific pattern or a set of tools that you can use for any infrastructure. Instead, there are plenty of those patterns and tools and choosing the right one depends on your needs and type of infrastructure. And still, until you try a specific tool or pattern, you'll never know if it suites you or not. This is why I call it here _"building"_ a logging system as a _continuous process_ of creating a centralized logging system that will be effective enough for your particular case.
 
 Here, in the first part of this blog series, we start with choosing an architecture of a logging system. In the following posts, we'll take a closer look at some of the opensource tools we can use at each level of the architecture we've chosen.
 
 Get yourself familiar with the terms we will use:
-* ```Log Shipper``` - collects log data and sends it to the ```Log Indexer``` for further processing
-* ```Log Indexer``` - consumes data sent by log shipper(s) while performing transformations like Grok and indexing into storage
+* ```Log Shipper (or Log Forwarder)``` - collects log data and sends it to the ```Log Indexer``` for processing
+* ```Log Indexer (or Log Collector/Aggregator)``` - _aggregates_  logs from different sources while performing transformations like Grok and indexing into storage. They provide _a unified logging layer_.
 
 Let's start with a simple case, when you have a relatively small system  which doesn't generate that much logs, say 300-500 msg/sec, including application and system logs. Then architecture of your logging system would look more or less like this.
 ![800x400](/public/img/logging/logging-architecture0.jpg)
-Architecture like this is quite simple and used extensively for systems with relatively low log rate. As you can see on the picture, you would usually use shippers (Rsyslog, Filebeat, etc.) which simply read local log files for the most cases and send log data to the indexer which in turn would process these logs and persist them to storage. Besides, some services might send logs directly to the indexer. For instance, your application could be writing logs directly to the Logstash or Graylog which are some of the commonly used indexers.
+Architecture like this is quite simple and used extensively for systems with relatively low log rate. As you can see on the picture, you would usually use shippers (Rsyslog, Filebeat, etc.) which simply read local log files for the most cases and send log data to a log indexer which in turn would process these logs and persist them to storage. Besides, some services might send logs directly to the indexer. For instance, your application could be writing logs directly to the Logstash or Graylog which are some of the commonly used indexers.
 
 _Log shippers_ get installed on the host where logs are generated. They are lightweight agents whose main function is to transport logs from hosts to _log indexer_ which does all the log processing and transformation. Obviously, depending on how complex the processing is, it can consume a lot of memory. So you usually want to install log indexer on a separate host.
 

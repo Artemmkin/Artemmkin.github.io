@@ -8,7 +8,6 @@ _In this part of our blog series we're going to look at the most popular opensou
 
 I love reading [Sematext blog](https://sematext.com/blog/). These guys are one of the few who write regularly about different logging tools and approaches to setting up a logging system. They have a post about [log shipper popularity](https://sematext.com/blog/2014/10/06/top-5-most-popular-log-shippers/) based on the poll results. Although,  it dates back to 2014, you may notice that not much changed in the world of log shippers since then and those whose names are on the picture of the poll results haven't lost their popularity to this day.
 
-
 ![800x400](/public/img/logging/shippers-popularity.png)  
 <!--break-->
 Considering the popularity of a fairly new log shipper [Filebeat](https://www.elastic.co/products/beats/filebeat) nowadays, I changed this picture a little. The Filebeat is a product of the same company that develops Logstash, so I added it next to Logstash.
@@ -34,7 +33,7 @@ As you can see, Logstash is very powerful and would fit great as a _log indexer_
 
 The Logstash's weakness has always been performance and resource consumption with the default heap size of 1GB. We certainly wouldn't want to install it on our small instances. In [this](https://sematext.com/blog/2016/09/13/logstash-alternatives/) post on Sematext, it says that based on benchmarks they did Logstash also turned out to be a lot slower than its alternatives like Rsyslog and Filebeat.
 
-The [Logstash Forwarder](https://github.com/elastic/logstash-forwarder) was introduced to address the problems of the Logstash as a shipper. The idea was to split the log shipment and heavy log processing in two separate stages. A log shipper would be a lightweight agent, so we could install it on any host. All it would have to do is to take the log data and send it to the Logstash without complex processing. A Logstash in turn would be installed on a standalone host with enough resources to perform the log processing and transformation we need and persist logs to storage.
+The [Logstash Forwarder](https://github.com/elastic/logstash-forwarder) was introduced to address the problems of the Logstash as a shipper. The idea was to split the log shipment and heavy log processing in two separate stages. A log shipper would be a lightweight agent, so we could install it on any host. All it would have to do is to take the log data and send it to the Logstash. It still could do some processing and data formatting _to make the processing easier for log indexer_. A Logstash in turn would be installed on a standalone host with enough resources to perform the log processing and transformation we need and persist logs into storage.
 
 [Filebeat](https://www.elastic.co/products/beats/filebeat) comes as a [replacement](https://www.elastic.co/guide/en/beats/filebeat/current/migrating-from-logstash-forwarder.html) to Logstash Forwarder and is based on its source code. Filebeat is a lightweight shipper written in Go that takes very little resources. During my testing, it took about 10-20 Mb of memory which is nothing.
 
