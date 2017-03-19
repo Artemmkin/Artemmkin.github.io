@@ -6,13 +6,13 @@ tags: [logging, logship, logcol]
 ---
 _In this part of our blog series we're going to look at the most popular opensource tools used for log shipping._
 
-I love reading [Sematext blog](https://sematext.com/blog/). These guys are one of the few who write regularly about different logging tools and approaches to setting up a logging system. They have a post about [log shipper popularity](https://sematext.com/blog/2014/10/06/top-5-most-popular-log-shippers/) based on the poll results. Although,  it dates back to 2014, you may notice that not much changed in the world of log shippers since then and those whose names are on the picture of the poll results haven't lost their popularity to this day.
+I love reading [Sematext blog](https://sematext.com/blog/). These guys are one of the few who write regularly about different logging tools and approaches to setting up a logging system. They have a post about [log shipper popularity](https://sematext.com/blog/2014/10/06/top-5-most-popular-log-shippers/) based on the poll results. Although it dates back to 2014, you may notice that not much changed in the world of log shippers since then and those whose names are on the picture of the poll results haven't lost their popularity to this day.
 
 ![800x400](/public/img/logging/shippers-popularity.png)  
 <!--break-->
-Considering the popularity of a fairly new log shipper [Filebeat](https://www.elastic.co/products/beats/filebeat) nowadays, I changed this picture a little. The Filebeat is a product of the same company that develops Logstash, so I added it next to Logstash.
+Considering the popularity of a fairly new log shipper [Filebeat](https://www.elastic.co/products/beats/filebeat) nowadays, I changed this picture a little. The Filebeat is a product of the same company that maintains Logstash, so I added it next to Logstash.
 
-We are going to take a look at each one of these _popular shippers_. I worked with some of them, others will be more or less new for me. _My goal is to learn more about these tools and summarize my knowledge about each of them._
+We are going to take a look at each one of these _popular shippers_.
 
 There is [a great post](https://sematext.com/blog/2016/09/13/logstash-alternatives/) (again on Sematext) about popular shippers. I definitely recommend reading it. This is one of the sources we're going to refer to in this series of posts.  
 
@@ -106,7 +106,7 @@ And there's one more thing I want to mention about filebeat before we wrap it up
 #### Conclusion:
 We talked about Logstash as a shipper in the beginning of this post and continue to explore it later when we'll be looking at _logs indexers_.
 
-As a shipper, Logstash is too resource-consuming and slow, so we wouldn't want to install it on each of our hosts. Nevertheless, Logstash is a very flexible tool with lots of plugins which allow you to do almost anything with your logs. That's why it's widely used as a log indexer. We'll talk more about it when we'll be exploring the tools at a log indexer level.
+As a shipper, Logstash is too resource-consuming and slow, so we wouldn't want to install it on each of our hosts. Nevertheless, Logstash is a very flexible tool with lots of plugins which allow you to do almost anything with your logs. That's why it's widely used as a log indexer.
 
 Logstash Forwarder and its successor Filebeat were introduced to fill in the need for a lightweight shipper.
 
