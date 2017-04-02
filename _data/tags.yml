@@ -16,6 +16,15 @@ aws:
   name: aws
   color: '#949667'
 
+vercont:
+  name: version control
+  color: '#949667'
+
+
+git:
+  name: git
+  color: '#949667'
+
 fluentd:
   name: fluentd
   color: '#949667'
