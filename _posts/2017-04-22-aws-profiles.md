@@ -2,7 +2,7 @@
 layout: post
 title: >
   How to work with multiple AWS accounts.
-tags: [aws, awscli, terraform]
+tags: [aws, awscli, terr]
 ---
 
 Ever had to work with multiple AWS accounts? If so, then you probably have a working solution on how to make switching accounts easier, in which case don't hesitate to share it with me in the comments below. But if you still find troublesome managing your multiple AWS credentials, then you should find this post interesting.
@@ -11,7 +11,7 @@ If you're used to working with just one AWS account, you most probably used `aws
 
 ![200x200](/public/img/terraform/aws-conf.png)  
 
-Recently, I find myself in a situation, when I had to switch between two AWS accounts of two different companies. As it's clearly not a rare case, the first thing I did was to look for a solution on how to manage multiple profiles that Amazon itself would suggest.
+Recently, I find myself in a situation, when I had to switch between two AWS accounts of two different companies. As it's clearly not a rare case, the first thing I did was to look for a solution on how to manage multiple profiles that Amazon itself would suggest.<!--break-->
 
 And I found that Amazon allows you to create [named profiles](http://docs.aws.amazon.com/cli/latest/userguide/cli-chap-getting-started.html#cli-multiple-profiles) for each set of your credentials.   
 

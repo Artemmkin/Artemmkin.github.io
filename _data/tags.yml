@@ -16,6 +16,14 @@ aws:
   name: aws
   color: '#949667'
 
+awscli:
+  name: aws cli
+  color: '#949667'
+
+terr:
+  name: terraform
+  color: '#949667'
+
 vercont:
   name: version control
   color: '#949667'
