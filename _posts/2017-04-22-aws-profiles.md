@@ -62,15 +62,14 @@ elif [[ $1 = 'off' ]]; then
   sed -i -e '/.*export AWS_PROFILE.*/d' ~/.zshrc
   sed -i -e '/.*export PS1=\(.*\).*/d' ~/.zshrc
   source ~/.zshrc
-  unset AWS_DEFAULT_PROFILE
   unset AWS_PROFILE
 else
   echo "Usage:"
   echo "To switch to a specific profile: awspr on profile-name"
   echo "To turn this thing off: awspr off"
 fi
-
 ~~~
+
 As you can see, I export `AWS_PROFILE` in my `~/.zshrc` file, so that when I choose to switch to a specific profile I could open up new panes in my terminal or even multiple terminal windows and still work the same AWS profile.
 
 I also change `PS1` variable which defines how my command prompt will look like. I add the name of the profile to which I switched at the very beginning of my prompt. This way I can always see what profile I'm using at this moment.
