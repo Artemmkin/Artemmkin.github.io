@@ -17,7 +17,7 @@ If you want to undo the changes in your project's history, just create a new com
 If you understood that rewriting your public history is bad, then you're safe to keep reading :) Today I will show you how changing commits could be useful.
 <!--break-->
 
-I already talked about commands like [git commit --amend](http://localhost:4000/2017/03/27/git/) which helps you to fix up the last commit and [git reset](http://localhost:4000/2017/03/27/git/) that allows you to restore to the previous commit removing all the commits following it.
+I already talked about commands like [git commit --amend](http://artemstar:4000/2017/03/27/git) which helps you to fix up the last commit and [git reset](http://artemstar:4000/2017/03/27/git/) that allows you to restore to the previous commit removing all the commits following it.
 
 
 Again, those are very useful, but should be used on local commits only.
@@ -77,7 +77,7 @@ In the end, we get one new commit which applies to a new base (`master`) the sam
 
 ### Case 2: the same branch
 
-Interactive rebase can be useful not only when we rebase one branch onto another. It is often used to _rewrite the history of a branch_ - the thing we talked about in the beginning when we mentioned commands like [amend](http://localhost:4000/2017/03/27/git/) and [reset](http://localhost:4000/2017/03/27/git/).
+Interactive rebase can be useful not only when we rebase one branch onto another. It is often used to _rewrite the history of a branch_ - the thing we talked about in the beginning when we mentioned commands like [amend](http://artemstar:4000/2017/03/27/git/) and [reset](http://artemstar:4000/2017/03/27/git/).
 
 Let's imagine I have a local branch with a series of commits which I haven't shared with anyone yet. And before I do share it with anyone, I would like to edit some of them, probably squash a few as I made a bunch of small commits which better look together, maybe correct some typos in the commit messages, etc.
 
