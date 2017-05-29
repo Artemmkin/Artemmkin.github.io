@@ -16,6 +16,18 @@ aws:
   name: aws
   color: '#949667'
 
+iterm:
+  name: iterm2
+  color: '#949667'
+
+terminal:
+  name: terminal
+  color: '#949667'
+
+tmux:
+  name: tmux
+  color: '#949667'
+
 awscli:
   name: aws cli
   color: '#949667'
