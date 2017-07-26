@@ -16,6 +16,18 @@ aws:
   name: aws
   color: '#949667'
 
+docker:
+  name: docker
+  color: '#949667'
+
+VM:
+  name: VM
+  color: '#949667'
+
+virtualization:
+  name: virtualization
+  color: '#949667'
+
 iterm:
   name: iterm2
   color: '#949667'
