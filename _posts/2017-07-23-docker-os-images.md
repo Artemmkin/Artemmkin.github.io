@@ -40,57 +40,70 @@ This model has lots of limitations.
 
 First, it leads to lots of underutilized hardware. In most cases, the applications and services that you run on your  server don't utilize even half of its computing resources. In fact, previous studies showed that the average utilization of the server's resources was about 5-10%. Which means that if you spend 10 thousand dollars on a server hardware, you waste 9 thousand dollars worth of computing power. Plus, you have to spend a lot of money on the servers maintenance.
 
+But why do we don't utilize all of our computing resources? Why can't we just run more applications on our servers? (・ω・)b
 
-Then a bunch of smart people thought - "Well, if don't utilize server's computing resources to the full extent, let's find a way to run more operating systems on our server!". Thus, the hardware virtualization came into play.
-
-![200x200](/public/img/docker/hard-virt.png)
-
-The idea was that a special piece of software called Hypervisor abstracts the underlying hardware (virtualizes it) to provide the same hardware to several operating systems. Operating systems which run on top of Hypervisor talk to the virtual hardware presented by the Hypervisor using the generic drivers. Now we could have Linux VMs, Windows VMs running on the same server at the same time each using a piece of computing resources that are there.
-
-
-This virtualization technology helped us solve the OS problem with the hardware. We'd seen before how the operating system was bound to the vendor hardware. But now operating systems can't see the server's underlying hardware, instead they see the generic drivers and the generic hardware provided by Hypervisor. This fact makes the process of distributing and running various OSes on any hardware very easy. All we need is a proper hypervisor running on that hardware or host OS.
-
-Now let's go one level above the hardware and see what problems we have at the OS layer.
-
-On top of the OS we run applications. But do we run them effectively? Do we use all the resources a VM is able to provide? Usually, not.
-
-The challenges that we face at this level include running multiple instances of an application or running different versions of the same application at the same time.
+Well, it's not that simple as it might seem. There are some challenges that we face at OS level which include running multiple instances of an application or running different versions of the same application at the same time.
 
 Most of the applications you see have some dependencies that need to be provided in order for them to run. And the problem we often see is that two applications may depend on the same library but require different versions of that library. For example, this might be the case when we want to run different versions of the same application.  Installing two versions of the same library system-wide and telling each of our applications which one they need to use would be a mess and in most cases is not even possible.
 
 We can see how this problem is addressed in some programming languages. For instance, in python, you use virtual environments to create a separate isolated python runtime environment with all the dependencies specific to each application. This way we can run different python applications without breaking each applications' dependencies.
 
-Although, the problem with application's dependencies is solved in some programming languages, we would ideally like to see some standardized way to do it for an application written in any programming language.
+Although, the problem with application's dependencies is solved in some programming languages, it's not solved for all  applications that we use. We need to have some technology which would allow us to provide isolation of runtime environments for any application.
 
-Besides, what if we decide to increase our computing resource utilization by running multiple instances of the same application on one operating system?
+Besides, what if we decide to increase our computing resource utilization by running multiple instances of the same application on one server?
 
 We find many problems here as well. For example, running multiple instances of nginx would require changing its init script, as well as its configs because we can't bind more than one application to the same port. As you can see, it takes quite a bit of work.
 
+I think you get the idea that we have quite a few things to think about at the OS level of our server model. What do we do? 🤔
 
-I think you get the idea that we have quite a few things to think about at the OS level of our server model.
 
-What we would like to see is something similar to what we've seen with the hardware virtualization. Something that would allow us to easily run multiple instances of various application on the same OS, without having to worry about the underlying OS itself.
+A bunch of people came up with this idea that if we can't run multiple applications in one OS, let's just figure out a way to run more OSes on our physical servers. Thus, the hardware virtualization came into play.
+
+![200x200](/public/img/docker/hard-virt.png)
+
+The idea was that a special piece of software called Hypervisor abstracts the underlying hardware (virtualizes it) to provide the same hardware to several operating systems. Operating systems which run on top of Hypervisor talk to the virtual hardware presented by the Hypervisor using the generic drivers. Thus, we could have multiple OSes of different sorts running on the same server at the same time each using a piece of computing resources that are there.
+
+Thanks to hardware virtualization, the OS became portable. We'd seen before how the operating system was bound to the vendor hardware. But now operating systems can't see the server's underlying hardware, instead they see the generic drivers and the generic hardware provided by the Hypervisor. This fact makes the process of distributing and running various OSes on any hardware very easy. All we need is a proper hypervisor running on that hardware or host OS.
+
+Hardware virtualization allowed us to run in isolation multiple OSes on the same physical server and made the movement of an OS form one machine to another much easier.
+
+Did it solve our problem with computing resource utilization? It sort of did. We can now run more instances our applications on a physical server by running more instances of operating systems.
+
+But it doesn't really solve our initial problem with running multiple applications on the same OS. It seems more like a workaround.
+
+What we really need is a technology that would allow us to run our applications in isolation on one OS.
 
 And this is where containers come in.
 
 Containers are an abstraction at the OS layer. With the help of containers, we can bundle the application code and all its dependencies into one standardized package and then run it in isolation from other system processes.
 
+![200x200](/public/img/docker/container.png)
+
+
 Isolation means everything here. For instance, filesystem isolation means that each container gets its own filesystem which solves the problem with version conflicts. Network isolation means each instance gets its own IP address and thus two containerized applications are free to bind to the same port, without us having to deal with any init scripts.
 
-Now we can run multiple instances of applications of the same type in our OS and really use our computing resources to the maximum.
-
-![200x200](/public/img/docker/container-vm.png)
-
-See how now our model looks more stacked and complete? (･ω･)b
+This really solves our problem with resource utilization. We can now run multiple instances of applications (even of the same type) in our OS and use our computing resources to the maximum.  
 
 Since container technology is based on the features built into the Linux kernel, like cgroups and namespaces, we can only run containers on Linux distributions. Although, with the use of virtual machines, we can run containers on pretty much any OS (check how Docker works on Windows or OS X).
 
 The Docker itself is a software container platform which allows us to create and manage containers.
 
-Docker provides a standard format for creating container images. This makes it extremely easy to run and distribute our applications to various OSes. For instance, we can now build a container image with our application on Centos and then run that same image on Ubuntu without having to change anything, because differences in OS distributions are abstracted away. The only thing we need is to have Docker installed.
+Docker provides a standard format for creating container images. This makes it extremely easy to run and distribute our applications through various OSes. For instance, we can now build a container image with our application on CentOS and then run that same image on Ubuntu without having to change anything, because differences in OS distributions are abstracted away. The only thing we need is to have Docker installed.
+
+But I want to note that having containers doesn't mean we don't VMs. They are still widely used and help us decrease hardware costs. They are often used in cases when we need to provide computing resources to different people. Virtual machines allows us to allocate the exact number of computing resources to meet the client's requirements, and if there's some resources left we can allocate it to another client. This is how public clouds work.
+
+In fact, VMs and container nicely work together (＾＾)ｂ
+
+![200x200](/public/img/docker/container-vm.png)
 
 
-**This is all great, but I still don't get it why we have ubuntu image in the Dockerifle? If a container provides isolation to the application and its dependencies, and uses the host operating system's kernel, then why do we need to specify an OS image in our Dockerfile** (◔_◔)???
+As for using VMs to provide isolation for our applications, VMs seem a bit too heavy. They are big in size (we're usually talking about gigabytes here) because they run the full OS which includes things like the kernel and hardware drivers.
+
+On the other hand, containers don't need all that software the OS usually have. All they need is an application you want to run plus its dependencies. As a result, containers are much smaller in size (MBs against GBs) which means they're easier to build and distribute.  They are also start and stop quicker because there's no OS boot process required.
+
+So containers are obviously a better choice for running applications in isolation. Although, VMs are still used for running and distributing applications when a higher level of security and isolation is required.
+
+**This is all great, but I still don't get it why we have the ubuntu image in the Dockerifle? If a container provides isolation to the application and its dependencies, and uses the host operating system's kernel, then why do we need to specify an OS image in our Dockerfile** (◔_◔)???
 
 Let's make things even more confusing before we answer that question.
 
