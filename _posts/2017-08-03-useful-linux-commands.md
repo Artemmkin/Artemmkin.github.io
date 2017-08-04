@@ -1,7 +1,7 @@
 ---
 layout: post
 title: >
-  Master Linux CLI (part I). The most useful Linux commands.  
+  Master Linux CLI (part I). Useful Linux commands.  
 tags: [terminal]
 ---
 Interestingly, when you start reading books about Linux or going through different tutorials, they often don't tell you about some of the cool commands that make your work sometimes so much easier. Maybe they are hiding them from you to make sure you still have to learn something in the future? ```¯\_(ツ)_/¯```
@@ -26,7 +26,7 @@ This command is incredibly useful when you want to store the output of a command
 
 ![200x200](/public/img/linux/tee33.png)
 
-As you can see, we are ablt to take the snapshots of the data as it flows through the pipes.
+As you can see, we are able to take snapshots of the data as it flows through the pipes.
 
 ### pbcopy (Mac) or xclip (Linux)
 
@@ -36,7 +36,7 @@ This allows you to copy a file's content to the clipboard.
 
 Now if you try to paste, you'll get ```cucaracha```, which by the way means a cockroach in Spanish :)
 
-This command makes copying and pasting a breeze. I find it especially useful when I need to copy SSH or GPG keys.
+This command makes copying from the terminal a breeze. I find it especially useful when I need to copy SSH or GPG keys.
 
 ### watch
 
@@ -44,9 +44,9 @@ This command makes copying and pasting a breeze. I find it especially useful whe
 
 This is used when you need to continuously monitor some command's output.
 
-Simple examples could be like monitoring who is logged in to the system with ```watch who``` command or watching for changes inside a directory with ```watch ls```
+Simple examples include monitoring who is logged in to the system with ```watch who``` command or watching for changes inside a directory with ```watch ls```
 
-We should note the ```-d``` option that allows you to highlight the differences.
+We should note the ```-d``` option that allows you to highlight the changes that happen in the command's output.
 
 Just to show you how it works, we'll use it with a ```date``` command.
 
@@ -58,14 +58,14 @@ Just to show you how it works, we'll use it with a ```date``` command.
 
 These are 2 awesome commands which allow you to record and replay a shell session for you.
 
-To use a ```script``` command, we can just type ```script``` in which case the session will be stored in a file with a default name ```typescript```. We can also specify the name of the file in which we want to store our sessions as the first argument to the ```script``` command.
+To use a ```script``` command, we can just type ```script``` in which case the session will be stored in a default file named ```typescript```. We can also specify the name of the file in which we want to store our session as the first argument to the ```script``` command.
 
 <script type="text/javascript" src="https://asciinema.org/a/HVp4CIb8zU8JolXvzVY7dpyQk.js" id="asciicast-HVp4CIb8zU8JolXvzVY7dpyQk" async></script>
 
 An alternative to the ```script``` command is ```history```, but it only keeps track of the commands you use and
 not their outputs.
 
-Another cool thing about the script command is that the shell session that you recorded can be replayed in your terminal with a ```scriptreplay``` command. This is particularly helpful if during the session you start interacting with some programs like htop in your terminal.
+Another cool thing about the script command is that the shell session that you have recorded can then be replayed in your terminal with a ```scriptreplay``` command. This is particularly helpful if during the session you start interacting with some programs like ```htop```.
 
 To be able to replay a recorded shell session, we need to specify a filename for storing the timing information.
 ~~~yml
@@ -78,7 +78,7 @@ $ scriptreplay --timing=time.txt myshell.info
 ~~~
 <script type="text/javascript" src="https://asciinema.org/a/vurga2WE8SpfRbjcXDfNKKONn.js" id="asciicast-vurga2WE8SpfRbjcXDfNKKONn" async></script>
 
-It's also important to note the ```-c``` option to this command which allows to record the output of a single command. For example, this might come in handy when we need to record a command's output in our bash script. The syntax goes like this.
+It's also important to note the ```-c``` option to this command which allows to record the output of a single command. For example, this might come in handy when we need to record a command's output in our bash script. The syntax goes like this:
 ~~~yml
 $ script -c 'ping -c 3 google.com' myshell3.log
 ~~~
@@ -106,3 +106,20 @@ Let's take a simple JSON file and extract some specific fields.
 ~~~
 
 ![200x200](/public/img/linux/jq.png)
+
+### env
+
+If being run without any arguments, this command will show you a list of current environment variables.
+
+It also allows you to run commands with specific environment variables without actually changing your environment.
+
+This can be helpful when you need to run a one time command that requires some specific env variable, but you don't really want to change your environment. For example, to build a GO binary for Ubuntu on my Macbook I would run a command like this.
+
+~~~yaml
+$ env GOOS=linux GOARCH=amd64 go build src/hello-world.go
+~~~
+
+This runs the ```go build``` command with two additional environment variables. If I run ```env``` command right after that, I won't find those variables in my environment.
+
+
+_Hopefully, you've found this post useful. And if you have some interesting commands to share with me, please leave a comment below!_
