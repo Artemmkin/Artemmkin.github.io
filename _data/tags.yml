@@ -20,6 +20,14 @@ docker:
   name: docker
   color: '#949667'
 
+cli:
+  name: cli
+  color: '#949667'
+
+linux:
+  name: linux
+  color: '#949667'
+
 VM:
   name: VM
   color: '#949667'

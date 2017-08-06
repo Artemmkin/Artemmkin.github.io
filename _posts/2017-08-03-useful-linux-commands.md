@@ -2,7 +2,7 @@
 layout: post
 title: >
   Master Linux CLI (part I). Useful Linux commands.  
-tags: [terminal]
+tags: [terminal, linux, cli]
 ---
 Interestingly, when you start reading books about Linux or going through different tutorials, they often don't tell you about some of the cool commands that make your work sometimes so much easier. Maybe they are hiding them from you to make sure you still have to learn something in the future? ```¯\_(ツ)_/¯```
 
