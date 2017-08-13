@@ -1,7 +1,7 @@
 ---
 layout: post
 title: >
-  What are Docker OS containers and why would I want to specify them in my Dockerfile?  
+  What are Docker OS images and why would I want to use them in my Dockerfile?  
 tags: [docker, VM, virtualization]
 ---
 Docker is not new these days. Everybody knows how to run a docker container at least on a local machine, because it's so easy. You find an image on DockerHub, you run `docker run -d <image-name>` and that's it.
