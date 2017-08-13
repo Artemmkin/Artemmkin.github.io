@@ -16,6 +16,15 @@ aws:
   name: aws
   color: '#949667'
 
+awslambda:
+    name: aws lambda
+    color: '#949667'
+
+
+github:
+    name: github
+    color: '#949667'
+
 docker:
   name: docker
   color: '#949667'
