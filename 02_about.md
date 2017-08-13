@@ -10,14 +10,14 @@ title: About
 {% include about-pic.html author=site.author %}
 
 
-Hi, my name is Artem. I study applied mathematics in [National Research University of Electronic Technology](National Research University of Electronic Technology).
+Hi, my name is Artem.
 
-Currently, I'm an engineer at DevOps company Express42 in Moscow.
+Currently, I work as an engineer at DevOps company Express 42 in Moscow.
 
 I'm passionate about learning new things and this blog is a summary of my learning process.
 
-I think one of the most valuable principles of DevOps that I learned over the past years is sharing your knowledge.
+I think one of the most valuable principles of DevOps that I learned over the past years is how important to share your knowledge.
 
-As I learn and grow as a professional, I'll try to share my knowledge and experience here in this blog.
+As I learn and grow as a professional, I'll talk about my experience and my new learnings here in this blog.
 
-Hopefully, this blog will also be of some help to my fellow engineers to deal with the similar problems I had in the past :)
+I hope this blog will be of some help to my fellow engineers to boost their knowledge and maybe even deal with some similar problems I had in the past :)
