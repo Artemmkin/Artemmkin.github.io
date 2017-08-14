@@ -1,7 +1,7 @@
 ---
 layout: post
 title: >
-    Create a simple bot using AWS Lambda to visualize your work with GitHub projects.
+    How to visualize your workflow with GitHub projects using AWS Lambda.
 tags: [aws, awslambda, git, github]
 ---
 ### The problem
@@ -36,7 +36,7 @@ In our case, we used GitHub integration with Amazon SNS and then made a Lambda f
 
 A great thing about Lambda is that you pay only for the time your code is run and the amount of memory your function uses. Besides, the Lambda includes 1M free requests per month and 400,000 GB-seconds of compute time per month.
 
-With the current rate of invocations of our 128 GB Lambda function, we use the service for free!
+With the current rate of invocations of our 128 MB Lambda function, we use the service for free!
 
 Compared to the paid solutions on GitHub marketplace, we save at least 50 dollars a month.
 
