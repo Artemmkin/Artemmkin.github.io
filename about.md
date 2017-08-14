@@ -12,13 +12,11 @@ title: About
 
 Hi, my name is Artem.
 
-Currently, I work as an engineer at DevOps company Express 42 in Moscow.
-
 I'm passionate about learning new things and this blog is a summary of my learning process.
 
 I think one of the most valuable principles of DevOps that I learned over the past years is how important to share your knowledge.
 
-In fact, I believe that many agree that DevOps is an experience-based movement. Thus, if we don't share our experience the movement will die :) 
+In fact, I believe that many agree that DevOps is an experience-based movement. Thus, if we don't share our experience the movement will die :)
 
 As I learn and grow as a professional, I'll talk about my experience and my new learnings here in this blog.
 
