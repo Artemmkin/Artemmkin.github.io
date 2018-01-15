@@ -89,9 +89,9 @@ And create a new project in Gitlab CI web UI for each component of raddit applic
 
 ### Describe a CI/CD pipeline for each project
 
-Each component of the raddit application is contained in its own repository and has its own CI/CD pipeline defined in a special `.gitlab-ci-yml` file (which has a special meaning for Gitlab CI) stored in the root of each of the component's directory.
+Each component of the raddit application is contained in its own repository and has its own CI/CD pipeline defined in a `.gitlab-ci-yml` file (which has a special meaning for Gitlab CI) stored in the root of each of the component's directory.
 
-Let's have a look at the **ui** microservice pipeline. Because the pipeline file is long, I'll break it into pieces and comment on each one of them.
+Let's have a look at the **ui** service pipeline. Because the pipeline file is long, I'll break it into pieces and comment on each one of them.
 
 First, we define stages in our pipeline and environment variables. The env vars will be set by Gitlab Runner before running each job:
 
