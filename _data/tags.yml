@@ -16,6 +16,22 @@ aws:
   name: aws
   color: '#949667'
 
+k8s:
+  name: kubernetes
+  color: '#949667'
+
+gitlab:
+  name: gitlab
+  color: '#949667'
+
+cicd:
+  name: CI/CD
+  color: '#949667'
+
+helm:
+  name: helm
+  color: '#949667'
+
 awslambda:
     name: aws lambda
     color: '#949667'
