@@ -82,15 +82,11 @@ ${lengt(list("hello", "world"))}  <-- the function gets put inside ${}
 
 If you miss creating variables and find working with the interactive console confusing, you can try out the built-in functions using output variables.
 
-Create a configuration file for testing. And put some provider in it such as `local` which doesn't have required parameters. [Terraform won't run without a provider component, that is why I use the one that has the least required configuration.]
-
-Then define any variables you want with a `variable` block and put the expression you want to test inside definition of an [output variable](https://www.terraform.io/intro/getting-started/outputs.html).
+Create a configuration file for testing. Then define any variables you want with a `variable` block and put the expression you want to test inside definition of an [output variable](https://www.terraform.io/intro/getting-started/outputs.html).
 
 To demonstrate the same examples with the [length()](https://www.terraform.io/docs/configuration/interpolation.html#length-list-) and [lookup()](https://www.terraform.io/docs/configuration/interpolation.html#lookup-map-key-default-) function using a new approach, I will create the following `test.tf` file:
 
 ```
-provider local {}
-
 variable "my_list" {
   default = ["hello", "world"]
 }
