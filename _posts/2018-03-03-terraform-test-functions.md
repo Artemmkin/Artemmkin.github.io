@@ -129,4 +129,4 @@ my_map_test2 = hello world
 my_map_test3 = None
 ```
 
-P.S. You find the `test.tf` file as well as an example for testing terraform templates in my [GitHub repo](https://github.com/Artemmkin/terraform-local-test).
+You find the `test.tf` file this [GitHub repo](https://github.com/Artemmkin/terraform-local-test).
