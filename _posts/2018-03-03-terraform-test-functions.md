@@ -129,4 +129,4 @@ my_map_test2 = hello world
 my_map_test3 = None
 ```
 
-You find the `test.tf` file this [GitHub repo](https://github.com/Artemmkin/terraform-local-test).
+P.S. you can find the `test.tf` file in [this GitHub repo](https://github.com/Artemmkin/terraform-local-test).
